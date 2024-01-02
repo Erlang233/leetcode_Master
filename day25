@@ -1,0 +1,45 @@
+#LC 216
+class Solution:
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        result = []
+        path = []
+        self.finds(k,n,1,path,result)
+        return result
+
+    def finds(self,k,n,start,path,result):
+        if len(path) == k:
+            if sum(path) == n:
+                result.append(path[:])
+            return
+
+        for i in range(start,9-(k-len(path))+2):
+            path.append(i)
+            self.finds(k,n,i + 1,path,result)
+            path.pop()
+
+
+#LC 17
+class Solution:
+    def __init__(self):
+
+        self.hash_table = [[],[],['a','b','c'],['d','e','f'],['g','h','i'],['j','k','l'],['m','n','o'],['p','q','r','s'],['t','u','v'],['w','x','y','z']]
+
+    def letterCombinations(self, digits: str) -> List[str]:
+        result = []
+        if digits == "":
+            return result
+        end = len(digits)
+        self.find(digits,result,'',0)
+        return result
+
+    def find(self, digits, result, s, index):
+        if len(s) == len(digits):
+            print(s)
+            result.append(s)
+            return
+
+        label = int(digits[index])
+        letters = self.hash_table[label]
+        for letter in letters:
+            # Create a new string with the current letter and pass it to the recursive call
+            self.find(digits, result, s + letter, index + 1)
